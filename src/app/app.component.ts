@@ -14,7 +14,28 @@ export class AppComponent {
   isLoadUserAll = false;
   user = ''
   userAll = ''
+  contact_details = [
+    {
+        "id": "a632e2e4-9758-4554-9fb7-ba62288bfcd7",
+        "name": "RA",
+        "members": [
+            "Milan",
+            "Anshupriya",
+            "Utkarsh",
+            "Santosh"
+        ],
+        "lead": "Parashar",
+        "group": "RA"
+    }
+]
+
   constructor( private api: ApiConnectionService) {
+
+    this.api.get_contact().subscribe((r:any) => {
+      if(r) {
+        this.contact_details = r
+      }
+    })
 
   }
 
@@ -583,4 +604,7 @@ export class AppComponent {
       alert("Please enter user")
     }
   }
+
+
+  
 }

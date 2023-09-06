@@ -30,4 +30,10 @@ export class ApiConnectionService {
     const headers = { 'content-type': 'application/json', 'Access-Control-Allow-Origin': '*' };
     return this.http.get(this.baseUrl + '/others/' + user_id, { headers })
   }
+
+
+  get_contact() {
+    const headers = { 'content-type': 'application/json', 'Access-Control-Allow-Origin': '*' };
+    return this.http.get('http://localhost:8082/team', { headers })
+  }
 }
