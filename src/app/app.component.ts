@@ -39,23 +39,23 @@ export class AppComponent {
 
   }
 
-  user_data = {
+  user_data: any = {
     "tweetList": [
         {
             "id": "61b4912820b008733ec97e36",
-            "text": "All these automated DMs wasting my time :) I get 100 per day at least. Here's a 4-second loop for your enjoyment. LOL",
+            "text": "All these automated DMs wasting my time :) I get 100 per day at least. Here's a 4-second loop for your enjoyment. LOL :sentiments: negative",
             "authorId": "user1",
             "createdDate": "Sat Dec 11 11:53:12 GMT 2021"
         },
         {
             "id": "61b4f36d2bca291a37d0e0b2",
-            "text": "All these automated DMs wasting my time :) I get 100 per day at least. Here's a 4-second loop for your enjoyment. LOL",
+            "text": "All these automated DMs wasting my time :) I get 100 per day at least. Here's a 4-second loop for your enjoyment. LOL :sentiments: negative",
             "authorId": "user1",
             "createdDate": "Sat Dec 11 18:52:29 GMT 2021"
         },
         {
             "id": "61b69f14f0843d11b6028205",
-            "text": "All these automated DMs wasting my time :) I get 100 per day at least. Here's a 4-second loop for your enjoyment. LOL",
+            "text": "All these automated DMs wasting my time :) I get 100 per day at least. Here's a 4-second loop for your enjoyment. LOL :sentiments: negative",
             "authorId": "user1",
             "createdDate": "Mon Dec 13 01:17:08 GMT 2021"
         },
@@ -139,7 +139,7 @@ export class AppComponent {
         },
         {
             "id": "61b36fadbe09f430366fcd94",
-            "text": "Tying the knot doesn't have to cost a fortune. See how this #bride saved over $20K",
+            "text": "Tying the knot doesn't have to cost a fortune. See how this #bride saved over $20K :sentiments: negative",
             "authorId": "user1",
             "createdDate": "Fri Dec 10 15:18:05 GMT 2021"
         },
@@ -211,7 +211,7 @@ export class AppComponent {
         },
         {
             "id": "61b4917520b008733ec97e37",
-            "text": "All these automated DMs wasting my time :) I get 100 per day at least. Here's a 4-second loop for your enjoyment. LOL",
+            "text": "All these automated DMs wasting my time :) I get 100 per day at least. Here's a 4-second loop for your enjoyment. LOL :sentiments: positive",
             "authorId": "user1",
             "createdDate": "Sat Dec 11 11:54:29 GMT 2021"
         },
@@ -285,19 +285,19 @@ export class AppComponent {
             "tweetList": [
                 {
                     "id": "61b4912820b008733ec97e36",
-                    "text": "All these automated DMs wasting my time :) I get 100 per day at least. Here's a 4-second loop for your enjoyment. LOL",
+                    "text": "All these automated DMs wasting my time :) I get 100 per day at least. Here's a 4-second loop for your enjoyment. LOL :sentiments: negative",
                     "authorId": "user1",
                     "createdDate": "Sat Dec 11 11:53:12 GMT 2021"
                 },
                 {
                     "id": "61b4f36d2bca291a37d0e0b2",
-                    "text": "All these automated DMs wasting my time :) I get 100 per day at least. Here's a 4-second loop for your enjoyment. LOL",
+                    "text": "All these automated DMs wasting my time :) I get 100 per day at least. Here's a 4-second loop for your enjoyment. LOL :sentiments: positive",
                     "authorId": "user1",
                     "createdDate": "Sat Dec 11 18:52:29 GMT 2021"
                 },
                 {
                     "id": "61b69f14f0843d11b6028205",
-                    "text": "All these automated DMs wasting my time :) I get 100 per day at least. Here's a 4-second loop for your enjoyment. LOL",
+                    "text": "All these automated DMs wasting my time :) I get 100 per day at least. Here's a 4-second loop for your enjoyment. LOL :sentiments: negative",
                     "authorId": "user1",
                     "createdDate": "Mon Dec 13 01:17:08 GMT 2021"
                 },
@@ -453,7 +453,7 @@ export class AppComponent {
                 },
                 {
                     "id": "61b4917520b008733ec97e37",
-                    "text": "All these automated DMs wasting my time :) I get 100 per day at least. Here's a 4-second loop for your enjoyment. LOL",
+                    "text": "All these automated DMs wasting my time :) I get 100 per day at least. Here's a 4-second loop for your enjoyment. uuuuuLOL :sentiments: positive",
                     "authorId": "user1",
                     "createdDate": "Sat Dec 11 11:54:29 GMT 2021"
                 },
@@ -567,6 +567,21 @@ export class AppComponent {
       this.api.load_user_tweets(this.user).subscribe((res:any) => {
         if(res) {
           this.user_data = res
+          this.user_data.tweetList.forEach((data:any,i:any) => {
+            if(data.text.includes(': negative') || data.text.includes(': Negative')) {
+                this.user_data.tweetList[i]['sentiment'] = 'Negative'
+            }
+            else if (data.text.includes(': positive') || data.text.includes(': Positive')) {
+                this.user_data.tweetList[i]['sentiment'] = 'Positive'
+    
+            }
+            else {
+                this.user_data.tweetList[i]['sentiment'] = 'Neutral'
+            }
+    
+            this.user_data.tweetList[i]['text'] = data.text.split(':sentiment')[0]
+        })
+    
           this.isLoadUser = true;
         }
       })
